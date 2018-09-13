@@ -118,3 +118,113 @@ a.foo('instance call')
 # a.foo(a)
 
 A.cfoo()
+
+
+class S:
+    nInstances = 0
+
+    def __init__(self):
+        S.nInstances = S.nInstances + 1
+
+    @staticmethod
+    def howManyInstances():
+        print('Number of instances created: ', S.nInstances)
+
+
+a = S()
+b = S()
+c = S()
+S.howManyInstances()
+
+
+# class Methods:
+#     def i_method(self, x):
+#         print(self, x)
+#
+#     def s_method(x):
+#         print(x)
+#
+#     def c_method(cls, x):
+#         print(cls, x)
+#
+#     s_method = staticmethod(s_method)
+#     c_method = classmethod(c_method)
+#
+#
+# obj = Methods()
+#
+# obj.i_method(1)
+# Methods.i_method(obj, 2)
+#
+# obj.s_method(3)
+# Methods.s_method(4)
+#
+# obj.c_method(5)
+# Methods.c_method(6)
+
+
+class Methods:
+    def i_method(self, x):
+        print(self, x)
+
+    @staticmethod
+    def s_method(x):
+        print(x)
+
+    @classmethod
+    def c_method(cls, x):
+        print(cls, x)
+
+
+obj = Methods()
+
+obj.i_method(1)
+Methods.i_method(obj, 2)
+
+obj.s_method(3)
+Methods.s_method(4)
+
+obj.c_method(5)
+Methods.c_method(6)
+
+
+# private ,public atribute
+
+# p.py
+class P:
+    def __init__(self, name, alias):
+        self.name = name  # public
+        self.__alias = alias  # private
+
+    def who(self):
+        print('name  : ', self.name)
+        print('alias : ', self.__alias)
+
+
+x = P(name='Alex', alias='amen')
+print(x.name)
+print(x.alias)
+
+
+# private ,public method
+
+class Q:
+    def __init__(self, name, alias):
+        self.name = name  # public
+        self.__alias = alias  # private
+
+    def who(self):
+        print('name  : ', self.name)
+        print('alias : ', self.__alias)
+
+    def __foo(self):  # private method
+        print('This is private method')
+
+    def foo(self):  # public method
+        print('This is public method')
+        self.__foo()
+
+
+x = Q('Alex', 'amem')
+# x.__foo() private method dont access
+x.foo() # public method
