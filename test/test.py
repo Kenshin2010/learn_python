@@ -112,5 +112,9 @@ class A:
         return self.message
 
 
+# from a import A
 a = A()
 a.foo('instance call')
+# a.foo(a)
+
+A.cfoo()
