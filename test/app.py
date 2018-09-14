@@ -21,7 +21,7 @@ def get_all_stars():
     return jsonify({'result': output})
 
 
-@app.route('/star/', methods=['GET'])
+@app.route('/star/<name>', methods=['GET'])
 def get_one_star(name):
     star = mongo.db.stars
     s = star.find_one({'name': name})
@@ -41,6 +41,33 @@ def add_star():
     new_star = star.find_one({'_id': star_id})
     output = {'name': new_star['name'], 'distance': new_star['distance']}
     return jsonify({'result': output})
+
+
+@app.route('/star/delete', methods=['DELETE'])
+def delete_star():
+    star = mongo.db.stars
+    deleteStar = star.find({'distance': 1})
+    # myquery = {"distance": 11111111}
+    star.delete_one(deleteStar[0])
+    output = []
+    for s in star.find():
+        output.append({'name': s['name'], 'distance': s['distance']})
+    return jsonify({'result': output})
+
+
+@app.route('/star/update', methods=['PUT'])
+def update_star():
+    star = mongo.db.stars
+    # deleteStar = star.find({'distance': 34444444})
+    myquery = {"distance": 0}
+    newvalues = {"$set": {"distance": 1}}
+    star.update_one(myquery,newvalues)
+    output = []
+    for s in star.find():
+        output.append({'name': s['name'], 'distance': s['distance']})
+    return jsonify({'result': output})
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
